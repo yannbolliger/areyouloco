@@ -8,10 +8,10 @@ require "_init.php";
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
-  if ($_POST["path"] === "vote" && is_numeric($_POST["id"])) {
+  if ($_GET["path"] === "vote" && is_numeric($_POST["id"])) {
     require "vote.php";
   }
-  else if ($_POST["path"] === "name" && !empty($_POST["name"])) {
+  else if ($_GET["path"] === "name" && !empty($_POST["name"])) {
     require "add_name.php";
   }
 }

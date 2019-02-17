@@ -8,6 +8,17 @@
  *
  */
 
+function redirectOnSuccess($success, $path = "") {
+	if ($success) {
+	  header("Location: " . $path, true, 301);
+	  exit();
+	}
+	else {
+	  http_response_code(500);
+	  exit();
+	}
+}
+
 function versionedAssetUrl($assetPath) {
 	$gitCommit = substr(file_get_contents(".git/refs/heads/master"), 0, 6);
  	return $assetPath . "?a=" . $gitCommit;

@@ -11,10 +11,4 @@ $success = $insert->execute(
   array(':person_id' => $id, ':cookie_id' => $loco_id)
 );
 
-if ($success) {
-  header("Location: " + "https://" . $_SERVER['HTTP_HOST']);
-}
-else {
-  http_response_code(500);
-}
-exit;
+redirectOnSuccess($success, $rootPath);

@@ -28,6 +28,13 @@
 
 	<div class="main">
 			<div class="container">
+				<form method="post" action="<?= $rootPath ?>name">
+					<input name="name" value="" maxlength="100" placeholder="Name" type="text">
+					<input class="button" type="submit" />
+				</form>
+			</div>
+
+			<div class="container">
 				<div class="card-group">
 
 					<?php
