@@ -30,7 +30,7 @@
 			<div class="container">
 				<form method="post" action="<?= $rootPath ?>name">
 					<input name="name" value="" maxlength="100" placeholder="Name" type="text">
-					<input class="button" type="submit" />
+					<input class="button" type="submit" value="Neue Person speichern" />
 				</form>
 			</div>
 
@@ -38,8 +38,8 @@
 				<div class="card-group">
 
 					<?php
-						foreach ($people as $id => $person) {
-							$vote = $person->vote ? $person->vote : 0;
+						foreach ($people as $person) {
+							$vote = $person->votes ? $person->votes : 0;
 
 						  echo "
 						    <div class='card'>
@@ -49,6 +49,10 @@
 						          <span class='percentage'>$vote</span>
 						        </h5>
 						        <p class='card-text'>
+											<form method='post' action='{$rootPath}vote'>
+												<input name='id' value='$person->id' hidden>
+												<input class='button' type='submit' value='Loco' />
+											</form>
 										</p>
 						      </div>
 						    </div>";

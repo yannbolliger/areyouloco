@@ -8,13 +8,14 @@
  *
  */
 
-function redirectOnSuccess($success, $path = "") {
+function redirectOnSuccess($success, $path, $error = "") {
 	if ($success) {
 	  header("Location: " . $path, true, 301);
 	  exit();
 	}
 	else {
 	  http_response_code(500);
+		echo $error;
 	  exit();
 	}
 }

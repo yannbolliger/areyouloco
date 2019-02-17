@@ -30,7 +30,7 @@ else {
       FROM votes GROUP BY person_id
     ) as v
     ON p.id = v.person_id
-    ORDER BY votes;
+    ORDER BY votes DESC;
   ";
 
   $statement = $dbConnection->prepare($query);
