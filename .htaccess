@@ -52,14 +52,11 @@ DirectoryIndex index.php index.html
 
   RewriteRule "(^|/)\.(?!well-known)" - [F]
 
-
-
-
   RewriteCond %{REQUEST_FILENAME} !(favicon\.ico|robots\.txt)
   RewriteCond %{REQUEST_FILENAME} !\.(jpg|jpeg|gif|png|ico)$ [NC]
   RewriteCond %{REQUEST_FILENAME} !(^|/)(scripts|styles)/
 
-  RewriteRule ^(.*)$ index.php?it=$1 [L,QSA]
+  RewriteRule ^(.*)$ index.php?path=$1 [L,QSA]
 
 
 </IfModule>

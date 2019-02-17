@@ -3,24 +3,40 @@ require "_init.php";
 
 
 /**
- * Index controller
+ * Router
  */
 
-$query = "
-  SELECT p.id as id, p.name as name, v.count as votes
-  FROM people as p
-  LEFT OUTER JOIN (
-    SELECT person_id, COUNT(1) as count
-    FROM votes GROUP BY person_id
-  ) as v
-  ON p.id = v.person_id
-  ORDER BY votes;
-";
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
-$statement = $dbConnection->prepare($query);
-$statement->execute();
+  if ($_POST["path"] === "vote" && is_numeric($_POST["id"])) {
+    require "vote.php";
+  }
+  else if ($_POST["path"] === "name" && !empty($_POST["name"])) {
+    require "add_name.php";
+  }
+}
 
-$people = $statement->fetchAll();
+else {
 
-require "_main.php";
-?>
+  /**
+   * Index controller
+   */
+
+  $query = "
+    SELECT p.id as id, p.name as name, v.count as votes
+    FROM people as p
+    LEFT OUTER JOIN (
+      SELECT person_id, COUNT(1) as count
+      FROM votes GROUP BY person_id
+    ) as v
+    ON p.id = v.person_id
+    ORDER BY votes;
+  ";
+
+  $statement = $dbConnection->prepare($query);
+  $statement->execute();
+
+  $people = $statement->fetchAll();
+
+  require "_main.php";
+}
