@@ -39,21 +39,23 @@
 
 					<?php
 						foreach ($people as $person) {
-							$vote = $person->votes ? $person->votes : 0;
+							$votes = $person->votes ? $person->votes : 0;
+
+							$vote_button = $person->hasvoted ? "Schon gevotet." : "
+								<form method='post' action='{$rootPath}vote'>
+									<input name='id' value='$person->id' hidden>
+									<input class='button' type='submit' value='Loco' />
+								</form>
+							";
 
 						  echo "
 						    <div class='card'>
 						      <div class='card-body'>
 						        <h5 class='card-title'>
 						          $person->name
-						          <span class='percentage'>$vote</span>
+						          <span class='percentage'>$votes</span>
 						        </h5>
-						        <p class='card-text'>
-											<form method='post' action='{$rootPath}vote'>
-												<input name='id' value='$person->id' hidden>
-												<input class='button' type='submit' value='Loco' />
-											</form>
-										</p>
+						        <p class='card-text'>$vote_button</p>
 						      </div>
 						    </div>";
 						}

@@ -23,18 +23,26 @@ else {
    */
 
   $query = "
-    SELECT p.id as id, p.name as name, v.count as votes
+    SELECT p.id as id, name, count as votes, s.hasvoted as hasvoted
     FROM people as p
-    LEFT OUTER JOIN (
-      SELECT person_id, COUNT(1) as count
-      FROM votes GROUP BY person_id
-    ) as v
-    ON p.id = v.person_id
-    ORDER BY votes DESC;
+    LEFT JOIN (
+      SELECT v.person_id as id, count, IFNULL(hasvoted, 0) as hasvoted
+      FROM (
+        SELECT person_id, COUNT(1) as count
+        FROM votes GROUP BY person_id
+      ) as v
+      LEFT JOIN (
+        SELECT person_id, 1 as hasvoted
+        FROM votes WHERE cookie_id = ?
+      ) as h
+      ON h.person_id = v.person_id
+    ) as s
+    ON s.id = p.id
+    ORDER BY votes DESC, name ASC;
   ";
 
   $statement = $dbConnection->prepare($query);
-  $statement->execute();
+  $statement->execute(array($loco_id));
 
   $people = $statement->fetchAll();
 
