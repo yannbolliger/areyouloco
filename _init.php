@@ -20,8 +20,21 @@ $dbConnection = new PDO(
  * Cookies
  */
 
-// create and store new cookie
-if (empty($_COOKIE["loco_token"])) {
+function readCookie($token, $dbConnection) {
+ $query = $dbConnection->prepare(
+   "SELECT id FROM cookies WHERE token = ?;"
+ );
+
+ $query->execute(array($token));
+ return intval($query->fetch()->id);
+}
+
+// read cookie if exists
+$loco_token = trim($_COOKIE["loco_token"]);
+$loco_id = readCookie($loco_token, $dbConnection);
+
+// create and store new cookie if not in DB
+if (!$loco_id || $loco_id <= 0) {
   $loco_token = bin2hex(random_bytes(50));
 
   $insert = $dbConnection->prepare(
@@ -36,10 +49,4 @@ if (empty($_COOKIE["loco_token"])) {
 }
 
 $loco_token = trim($_COOKIE["loco_token"]);
-
-$query = $dbConnection->prepare(
-  "SELECT id FROM cookies WHERE token = ?;"
-);
-
-$query->execute(array($loco_token));
-$loco_id = intval($query->fetch()->id);
+$loco_id = readCookie($loco_token, $dbConnection);
