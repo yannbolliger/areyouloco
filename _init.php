@@ -12,7 +12,7 @@ $rootPath = "/" . $parts[1] . "/";
 
 // create DB
 $dbConnection = new PDO(
-  "mysql:host=$config->dbHost;port=$config->dbPort;dbname=$config->dbName",
+  "mysql:host=$config->dbHost;port=$config->dbPort;dbname=$config->dbName;charset=utf8mb4",
   $config->dbUser,
   $config->dbPass,
   array(PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ)

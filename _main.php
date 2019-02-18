@@ -27,10 +27,14 @@
 	</header>
 
 	<div class="main">
-			<div class="container">
+			<div class="container mb-3">
 				<form method="post" action="<?= $rootPath ?>name">
-					<input name="name" value="" maxlength="100" placeholder="Name" type="text">
-					<input class="button" type="submit" value="Neue Person speichern" />
+					<div class="input-group">
+						<input name="name" class="form-control" maxlength="100" placeholder="Name" type="text">
+						<div class="input-group-append">
+							<input class="btn btn-secondary" type="submit" value="➕ Loco/Loca 🚀" />
+						</div>
+					</div>
 				</form>
 			</div>
 
@@ -41,21 +45,22 @@
 						foreach ($people as $person) {
 							$votes = $person->votes ? $person->votes : 0;
 
-							$vote_button = $person->hasvoted ? "Schon gevotet." : "
-								<form method='post' action='{$rootPath}vote'>
-									<input name='id' value='$person->id' hidden>
-									<input class='button' type='submit' value='Loco' />
-								</form>
-							";
+							$vote_button = $person->hasvoted ?
+								"<p class='card-text'>Schon gevotet.</p>"
+								:
+								"<form method='post' action='{$rootPath}vote'>
+									<input name='id' value='$person->id' hidden />
+									<input class='btn btn-primary' type='submit' value='👍  loco' />
+								</form>";
 
 						  echo "
 						    <div class='card'>
 						      <div class='card-body'>
 						        <h5 class='card-title'>
 						          $person->name
-						          <span class='percentage'>$votes</span>
+						          <span class='percentage'><b>$votes</b> loco</span>
 						        </h5>
-						        <p class='card-text'>$vote_button</p>
+						        $vote_button
 						      </div>
 						    </div>";
 						}

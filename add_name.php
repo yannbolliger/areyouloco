@@ -11,4 +11,7 @@ if (empty($name)) {
 $insert = $dbConnection->prepare("INSERT INTO people (name) VALUES (:name);");
 $success = $insert->execute(array(':name' => $name));
 
-redirectOnSuccess($success, $rootPath, "Dieser Name exisitiert schon.");
+if (!$success && $insert->errorInfo()[1] === 1062) {
+  redirectOnSuccess($success, $rootPath, "Dieser Name exisitiert schon.");
+}
+else redirectOnSuccess($success, $rootPath, "Es ist ein interner Fehler aufgetreten");
