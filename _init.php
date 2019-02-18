@@ -4,8 +4,6 @@
 include_once("_func.php");
 include_once("config.php");
 
-$title = "Are you loco?";
-
 $path = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
 $parts = explode("/", $path);
 $rootPath = "/" . $parts[1] . "/";

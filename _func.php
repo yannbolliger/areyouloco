@@ -15,7 +15,21 @@ function redirectOnSuccess($success, $path, $error = "") {
 	}
 	else {
 	  http_response_code(500);
-		echo $error;
+
+		$content = "
+		<div class='container'>
+			<div class='card-group'>
+				<div class='card'>
+					<div class='card-body'>
+						<h5 class='card-title'>💥 $error</h5>
+						<a href='javascript:history.back()'>⬅️ Zurück</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		";
+
+		require "_main.php";
 	  exit();
 	}
 }

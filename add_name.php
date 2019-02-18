@@ -3,9 +3,7 @@
 $name = strip_tags(trim($_POST["name"]));
 
 if (empty($name)) {
-  http_response_code(400);
-  echo "Der Name kann nicht leer sein.";
-  exit;
+  redirectOnSuccess(false, $rootPath, "Der Name kann nicht leer sein.");
 }
 
 $insert = $dbConnection->prepare("INSERT INTO people (name) VALUES (:name);");

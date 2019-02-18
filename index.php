@@ -11,9 +11,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
   if ($_GET["path"] === "vote" && is_numeric($_POST["id"])) {
     require "vote.php";
   }
-  else if ($_GET["path"] === "name" && !empty($_POST["name"])) {
+  else if ($_GET["path"] === "name") {
     require "add_name.php";
   }
+  else redirectOnSuccess(false, $rootPath, "Falsche Parameter.");
 }
 
 else {
@@ -46,5 +47,5 @@ else {
 
   $people = $statement->fetchAll();
 
-  require "_main.php";
+  require "_index_list.php";
 }
