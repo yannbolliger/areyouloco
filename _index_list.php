@@ -2,7 +2,7 @@
 
 $form = "
   <div class='container mb-3'>
-    <form method='post' action='{$rootPath}/name'>
+    <form method='post' action='{$rootPath}name'>
       <div class='input-group'>
         <input name='name' class='form-control' maxlength='100' placeholder='Name' type='text'>
         <div class='input-group-append'>
@@ -32,7 +32,7 @@ foreach ($people as $person) {
   }
   else {
     $items .= "
-      <form method='post' action='{$rootPath}/vote'>
+      <form method='post' action='{$rootPath}vote'>
         <input name='id' value='$person->id' hidden />
         <input class='btn btn-primary' type='submit' value='👍  loco' />
       </form>";
