@@ -15,9 +15,10 @@ CREATE TABLE cookies (
 );
 
 CREATE TABLE votes (
+  id          BIGINT AUTO_INCREMENT NOT NULL PRIMARY KEY,
   person_id   BIGINT NOT NULL,
   cookie_id   BIGINT NOT NULL,
-  PRIMARY KEY (person_id, cookie_id),
+  created_at  TIMESTAMP NOT NULL,
   FOREIGN KEY (person_id) REFERENCES people(id),
   FOREIGN KEY (cookie_id) REFERENCES cookies(id)
 );
