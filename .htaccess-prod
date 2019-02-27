@@ -1,0 +1,62 @@
+
+Options -Indexes
+Options +FollowSymLinks
+
+<Files favicon.ico>
+  ErrorDocument 404 "The requested file favicon.ico was not found.
+</Files>
+
+<Files robots.txt>
+  ErrorDocument 404 "The requested file robots.txt was not found.
+</Files>
+
+<IfModule mod_headers.c>
+  # prevent site from being loaded in an iframe on another site
+  # you will need to remove this one if you want to allow external iframes
+  Header always append X-Frame-Options SAMEORIGIN
+
+  # to prevent cross site scripting (IE8+ proprietary)
+  Header set X-XSS-Protection "1; mode=block"
+
+  # prevent mime-based attacks via content sniffing (IE+Chrome)
+  # Header set X-Content-Type-Options "nosniff"
+</IfModule>
+
+<IfModule mod_php5.c>
+  php_flag magic_quotes_gpc		off
+  php_flag magic_quotes_sybase		off
+  php_flag register_globals		off
+</IfModule>
+
+
+DirectoryIndex index.php index.html
+
+<IfModule mod_rewrite.c>
+
+  RewriteEngine On
+  AddDefaultCharset UTF-8
+
+  # -----------------------------------------------------------------------------------------------
+  # 9. If you only want to allow HTTPS, uncomment the RewriteCond and RewriteRule lines below.
+  # -----------------------------------------------------------------------------------------------
+  RewriteCond %{HTTPS} off
+  RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+  # RewriteCond %{HTTP_HOST} !^www\. [NC]
+  # RewriteRule ^ http://www.%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+
+  <IfModule mod_env.c>
+    SetEnv HTTP_MOD_REWRITE On
+  </IfModule>
+
+  RewriteRule "(^|/)\.(?!well-known)" - [F]
+
+  RewriteCond %{REQUEST_FILENAME} !(favicon\.ico|robots\.txt)
+  RewriteCond %{REQUEST_FILENAME} !\.(jpg|jpeg|gif|png|ico)$ [NC]
+  RewriteCond %{REQUEST_FILENAME} !(^|/)(scripts|styles)/
+
+  RewriteRule ^(.*)$ index.php?path=$1 [L,QSA]
+
+
+</IfModule>

@@ -1,2 +1,3 @@
 *.css.map
 config.php
+.htaccess
