@@ -1,56 +1,45 @@
 <?php
 
-/**
- * /site/templates/_func.php
- *
- * Example of shared functions used by template files
- *
- *
- */
 
 function redirectOnSuccess($success, $path, $error = "") {
-	if ($success) {
-	  header("Location: " . $path, true, 301);
-	  exit();
-	}
-	else {
-	  http_response_code(500);
+	if ($success) header("Location: " . $path, true, 301);
+	else renderError($error);
 
-		$content = "
-		<div class='container'>
-			<div class='card-group'>
-				<div class='card'>
-					<div class='card-body'>
-						<h5 class='card-title'>💥 $error</h5>
-						<a href='javascript:history.back()'>⬅️ Zurück</a>
-					</div>
+	exit;
+}
+
+function renderError($error) {
+	http_response_code(500);
+
+	$content = "
+	<div class='container'>
+		<div class='card-group'>
+			<div class='card'>
+				<div class='card-body'>
+					<h5 class='card-title'>💥 $error</h5>
+					<a href='javascript:history.back()'>⬅️ Zurück</a>
 				</div>
 			</div>
 		</div>
-		";
+	</div>
+	";
 
-		require "_main.php";
-	  exit();
-	}
+	require "templates/_main.php";
+}
+
+function readCookie($token, $dbConnection) {
+ $query = $dbConnection->prepare(
+   "SELECT id FROM cookies WHERE token = ?;"
+ );
+
+ $query->execute(array($token));
+ return intval($query->fetch()->id);
 }
 
 function versionedAssetUrl($assetPath) {
 	$gitCommit = substr(file_get_contents(".git/refs/heads/master"), 0, 6);
  	return $assetPath . "?a=" . $gitCommit;
 }
-
-function shuffle_assoc($list) {
-  if (!is_array($list)) return $list;
-
-  $keys = array_keys($list);
-  shuffle($keys);
-  $random = array();
-  foreach ($keys as $key) {
-    $random[$key] = $list[$key];
-  }
-  return $random;
-}
-
 
 /**
 * Truncate text to a wordwrap.

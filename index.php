@@ -1,4 +1,5 @@
 <?php
+
 require "_init.php";
 
 
@@ -14,7 +15,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
   else if ($_GET["path"] === "name") {
     require "add_name.php";
   }
-  else redirectOnSuccess(false, $rootPath, "Falsche Parameter.");
+  else renderError("Falsche Parameter.");
 }
 
 else {

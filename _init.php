@@ -2,7 +2,7 @@
 
 // Include shared functions
 include_once("_func.php");
-include_once("config.php");
+include_once("config/config.php");
 
 $path = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
 $rootPath = str_replace($_GET['path'], "", $path);
@@ -19,18 +19,13 @@ $dbConnection = new PDO(
  * Cookies
  */
 
-function readCookie($token, $dbConnection) {
- $query = $dbConnection->prepare(
-   "SELECT id FROM cookies WHERE token = ?;"
- );
-
- $query->execute(array($token));
- return intval($query->fetch()->id);
-}
-
 // read cookie if exists
 $loco_token = trim($_COOKIE["loco_token"]);
-$loco_id = readCookie($loco_token, $dbConnection);
+$loco_id = -1;
+
+if ($loco_token) {
+  $loco_id = readCookie($loco_token, $dbConnection);
+}
 
 // create and store new cookie if not in DB
 if (!$loco_id || $loco_id <= 0) {
@@ -41,11 +36,11 @@ if (!$loco_id || $loco_id <= 0) {
   );
 
   if (!$insert->execute(array($loco_token))) {
-    http_response_code(500);
+    renderError("Ein unerwarteter Fehler ist aufgetreten.");
     exit;
   }
-  else setcookie("loco_token", $loco_token, time() + 365*24*60*60);
+  else {
+    setcookie("loco_token", $loco_token, time() + 365*24*60*60);
+    $loco_id = readCookie($loco_token, $dbConnection);
+  }
 }
-
-$loco_token = trim($_COOKIE["loco_token"]);
-$loco_id = readCookie($loco_token, $dbConnection);
