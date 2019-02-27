@@ -49,5 +49,6 @@ else {
 
   $people = $statement->fetchAll();
 
-  require "_index_list.php";
+  require "templates/_index_list.php";
+  require "templates/_main.php";
 }

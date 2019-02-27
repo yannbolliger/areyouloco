@@ -51,5 +51,3 @@ $list = "
 ";
 
 $content = $form . $list;
-
-require '_main.php';
