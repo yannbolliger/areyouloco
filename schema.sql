@@ -1,0 +1,23 @@
+
+DROP TABLE IF EXISTS votes;
+DROP TABLE IF EXISTS cookies;
+DROP TABLE IF EXISTS people;
+
+
+CREATE TABLE people (
+  id      BIGINT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+  name    VARCHAR(100) NOT NULL UNIQUE
+);
+
+CREATE TABLE cookies (
+  id      BIGINT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+  token   VARCHAR(100) NOT NULL UNIQUE
+);
+
+CREATE TABLE votes (
+  person_id   BIGINT NOT NULL,
+  cookie_id   BIGINT NOT NULL,
+  PRIMARY KEY (person_id, cookie_id),
+  FOREIGN KEY (person_id) REFERENCES people(id),
+  FOREIGN KEY (cookie_id) REFERENCES cookies(id)
+);
